@@ -31,28 +31,8 @@ function DiaryPage({ data }) {
 
      <hr />
 
-     <h3>할 일</h3>
-
-     {diary.todos && diary.todos.length > 0 ? (
-
-      <ul>
-       {diary.todos.map((todo, i) => (
-        <li
-         key={i}
-         style={{
-          textDecoration: todo.done ? "line-through" : "none"
-         }}
-        >
-         {todo.text}
-        </li>
-       ))}
-      </ul>
-
-     ) : (
-
-      <p>기록된 할 일이 없습니다.</p>
-
-     )}
+ <h3>일기 내용</h3>
+<p>{diary.content ? diary.content : "내용 없음"}</p>
 
     </div>
 

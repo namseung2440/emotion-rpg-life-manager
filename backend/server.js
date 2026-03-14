@@ -245,7 +245,25 @@ res.json(result.rows.map(r => ({
 
 });
 
-
+app.put("/emotions/:id", async (req, res) => {
+  let connection;
+  try {
+    const id = req.params.id;
+    const { emotion, content } = req.body;
+    connection = await oracledb.getConnection(dbConfig);
+    await connection.execute(
+      `UPDATE EMOTION_DIARY SET EMOTION = :emotion, CONTENT = :content WHERE ID = :id`,
+      { emotion, content, id },
+      { autoCommit: true }
+    );
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("DB error");
+  } finally {
+    if (connection) await connection.close();
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

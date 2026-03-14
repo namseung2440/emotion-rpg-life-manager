@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import EmotionGraph from "../components/EmotionGraph";
 
 function Home({ data, setData, level, xp, todos, setTodos, gainXP }) {
 
@@ -293,8 +294,13 @@ style={{marginLeft:"10px"}}
 </Link>
 
 </div>
-
+<hr />
+<h2>감정 통계</h2>
+<EmotionGraph data={data} />
 </div>
+
+
+
 
 );
 

@@ -5,6 +5,7 @@ import New from "./pages/New";
 import "./App.css";
 import Calendar from "./pages/Calendar";
 import DiaryPage from "./pages/DiaryPage";
+import Edit from "./pages/Edit";
 
 function App(){
 
@@ -14,24 +15,12 @@ function App(){
 
 
 
- useEffect(() => {
-  const saved = localStorage.getItem("diaryData");
 
-  if (saved) {
-    setData(JSON.parse(saved));
-  }
-}, []);
-
-useEffect(() => {
-  localStorage.setItem("diaryData", JSON.stringify(data));
-}, [data]);
 
 
  const [xp, setXp] = useState(0);
  const [todos, setTodos] = useState([]);
- const [hp, setHp] = useState(100);
-const [exp, setExp] = useState(0);
-const [streak, setStreak] = useState(0);
+
 
  const gainXP = (amount) => {
 
@@ -81,6 +70,11 @@ const [streak, setStreak] = useState(0);
  path="/diary/:date"
  element={<DiaryPage data={data} />}
 />
+
+<Route path="/diary/:date" element={<DiaryPage data={data} />} />
+<Route path="/edit/:id" element={<Edit data={data} setData={setData} />} />  {/* ← 여기 추가 */}
+
+
 
 
    </Routes>
