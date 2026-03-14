@@ -8,10 +8,12 @@ const port = 4000;
 app.use(cors());
 app.use(express.json());
 
+require("dotenv").config();
+
 const dbConfig = {
-  user: "soldesk",
-  password: "12345",
-  connectString: "localhost:1521/XE"
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  connectString: process.env.DB_CONNECT
 };
 
 
