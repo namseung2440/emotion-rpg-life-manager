@@ -176,19 +176,16 @@ app.post("/emotions", async (req, res) => {
 
   try {
 
-    const { emotion, date } = req.body;
+ const { emotion, content } = req.body;
 
-    connection = await oracledb.getConnection(dbConfig);
+connection = await oracledb.getConnection(dbConfig);
 
-    await connection.execute(
-      `INSERT INTO EMOTION_DIARY (ID, EMOTION, DATE_RECORD)
-       VALUES (EMOTIONS_SEQ.NEXTVAL, :emotion, TO_DATE(:record_date,'YYYY-MM-DD'))`,
-      {
-        emotion: emotion,
-        record_date: date
-      },
-      { autoCommit: true }
-    );
+await connection.execute(
+  `INSERT INTO EMOTION_DIARY (ID, EMOTION, CONTENT, CREATED_DATE)
+   VALUES (EMOTIONS_SEQ.NEXTVAL, :emotion, :content, SYSDATE)`,
+  { emotion, content },
+  { autoCommit: true }
+);
 
     res.json({ success: true });
 
@@ -219,16 +216,17 @@ app.get("/emotions", async (req, res) => {
     connection = await oracledb.getConnection(dbConfig);
 
     const result = await connection.execute(
-      `SELECT ID, EMOTION, DATE_RECORD
-       FROM EMOTION_DIARY
-       ORDER BY ID DESC`
-    );
+  `SELECT ID, EMOTION, CONTENT, CREATED_DATE
+   FROM EMOTION_DIARY
+   ORDER BY ID DESC`
+);
 
-    res.json(result.rows.map(r => ({
-      id: r[0],
-      emotion: r[1],
-      date: r[2]
-    })));
+res.json(result.rows.map(r => ({
+  id: r[0],
+  emotion: r[1],
+  content: r[2],
+  date: r[3]
+})));
 
   } catch (err) {
 
